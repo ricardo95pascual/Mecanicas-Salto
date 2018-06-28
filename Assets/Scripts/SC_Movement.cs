@@ -19,6 +19,16 @@ public class SC_Movement : MonoBehaviour {
     float _speedAcceleration;
     float _speedBrakeTo0Force = 0.5f;
 
+    public float _dashSpeed = 20f;
+    public float _dashDistance = 5f;
+    float _dashRemainingDistance = 0f;
+    public float _dashCooldwon = 1.5f;
+    float _dashRemainingCooldwon = 0f;
+    bool _dashDoingNow = false;
+    int _dashDirection = 0;
+    public bool _dashUseGravity = false;
+
+
     Rigidbody _rb;
 
     public float _jumpSpeed0 = 8f;
@@ -38,11 +48,15 @@ public class SC_Movement : MonoBehaviour {
         CheckGrounded();
        
         //Apply the movement
-        if (Input.GetAxisRaw("Horizontal") != 0f)
+        if (!_dashDoingNow)
         {
-            DoAcceleration();
+            if (Input.GetAxisRaw("Horizontal") != 0f)
+            {
+                DoAcceleration();
+            }
+            else DoAcceleration0();
         }
-        else DoAcceleration0();
+        
 
         
 
@@ -62,6 +76,8 @@ public class SC_Movement : MonoBehaviour {
         }
 
         CheckBrakeJump();
+
+        ManageDash();
 
     }
 
@@ -128,6 +144,52 @@ public class SC_Movement : MonoBehaviour {
                 Vector3 rbVel = _rb.velocity;
                 rbVel.y = _jumpBrakeSpeed;
                 _rb.velocity = rbVel;
+            }
+        }
+    }
+
+    void ManageDash()
+    {
+        
+        if (_dashDoingNow)
+        {
+            Vector3 rbVel = _rb.velocity;
+            rbVel.x = _dashSpeed *_dashDirection;
+            if (!_dashUseGravity)
+            {
+                rbVel.y = 0f;
+            }
+            _rb.velocity = rbVel;
+
+            _dashRemainingDistance = _dashRemainingDistance - (_dashSpeed * Time.fixedDeltaTime);
+            
+            if (_dashRemainingDistance <= 0f)
+            {
+                _dashDoingNow = false;
+                _dashRemainingCooldwon = _dashCooldwon;
+            }
+        }
+        else
+        {
+            Debug.Log(_dashRemainingCooldwon);
+            if (_dashRemainingCooldwon > 0f) //Dash Cooldown
+            {
+                _dashRemainingCooldwon = _dashRemainingCooldwon - Time.fixedDeltaTime;
+            }
+            else
+            {
+                
+                if (Input.GetKeyDown("left shift") == true && Input.GetAxisRaw("Horizontal") != 0f) //Dash Start
+                {
+                    
+                    _dashDoingNow = true;
+                    _dashRemainingDistance = _dashDistance;
+                    if (Input.GetAxisRaw("Horizontal") > 0f)
+                    {
+                        _dashDirection = 1;
+                    }
+                    else _dashDirection = -1;
+                }
             }
         }
     }
