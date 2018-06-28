@@ -22,6 +22,7 @@ public class SC_Movement : MonoBehaviour {
     Rigidbody _rb;
 
     public float _jumpSpeed0 = 8f;
+    public float _jumpSecondSpeed0 = 6f;
     public float _jumpBrakeSpeed = 3f;
 
 
@@ -55,19 +56,12 @@ public class SC_Movement : MonoBehaviour {
             }
             else if (_canSecondJump)
             {
-
+                Jump(_jumpSecondSpeed0);
+                _canSecondJump = false;
             }
         }
 
-        if (Input.GetKeyUp("space"))
-        {
-            if (_rb.velocity.y > _jumpBrakeSpeed)
-            {
-                Vector3 rbVel = _rb.velocity;
-                rbVel.y = _jumpBrakeSpeed;
-                _rb.velocity = rbVel;
-            }
-        }
+        CheckBrakeJump();
 
     }
 
@@ -88,6 +82,7 @@ public class SC_Movement : MonoBehaviour {
         {
             _speedAcceleration = _speedGroundAcceleration;
             _speedBrakeTo0Force = _speedGroundBrakeTo0;
+            _canSecondJump = true;
         }
         else
         {
@@ -122,5 +117,18 @@ public class SC_Movement : MonoBehaviour {
         Vector3 rbVel = _rb.velocity;
         rbVel.y = speed0;
         _rb.velocity = rbVel;
+    }
+
+    void CheckBrakeJump()
+    {
+        if (Input.GetKeyUp("space"))
+        {
+            if (_rb.velocity.y > _jumpBrakeSpeed)
+            {
+                Vector3 rbVel = _rb.velocity;
+                rbVel.y = _jumpBrakeSpeed;
+                _rb.velocity = rbVel;
+            }
+        }
     }
 }
