@@ -34,7 +34,12 @@ public class SC_Movement : MonoBehaviour {
     public float _jumpSpeed0 = 8f;
     public float _jumpSecondSpeed0 = 6f;
     public float _jumpBrakeSpeed = 3f;
+    public float _maxFallSpeed = 20f;
 
+
+    public float _wallJumpFallSpeed = 2f;
+    bool _isOnWall = false;
+    bool _isOnWallRight = true;
 
 	// Use this for initialization
 	void Start () {
@@ -56,9 +61,9 @@ public class SC_Movement : MonoBehaviour {
             }
             else DoAcceleration0();
         }
-        
 
-        
+        CheckWallJump();
+        //Debug.Log(_isOnWall);
 
         //Jump
         if (Input.GetKeyDown("space"))
@@ -67,6 +72,17 @@ public class SC_Movement : MonoBehaviour {
             if (_grounded)
             {
                 Jump(_jumpSpeed0);
+            }
+            else if (_isOnWall)
+            {
+                if (_isOnWallRight)
+                {
+                    _rb.velocity = new Vector3(-_speedMovement, _rb.velocity.y);
+                }
+                else _rb.velocity = new Vector3(_speedMovement, _rb.velocity.y);
+
+                Jump(_jumpSpeed0);
+                //_isOnWall = false;
             }
             else if (_canSecondJump)
             {
@@ -78,6 +94,8 @@ public class SC_Movement : MonoBehaviour {
         CheckBrakeJump();
 
         ManageDash();
+
+
 
     }
 
@@ -91,6 +109,11 @@ public class SC_Movement : MonoBehaviour {
             _grounded = true;
         }
         else _grounded = false;
+
+        if (_grounded)
+        {
+            _isOnWall = false;
+        }
 
         //Debug.Log(_grounded);
         //Set ground depending stats
@@ -148,6 +171,16 @@ public class SC_Movement : MonoBehaviour {
         }
     }
 
+    void LimitFallSpeed()
+    {
+        if (_rb.velocity.y < -_maxFallSpeed)
+        {
+            Vector3 rbVel = _rb.velocity;
+            rbVel.y = -_maxFallSpeed;
+            _rb.velocity = rbVel;
+        }
+    }
+
     void ManageDash()
     {
         
@@ -165,13 +198,12 @@ public class SC_Movement : MonoBehaviour {
             
             if (_dashRemainingDistance <= 0f)
             {
-                _dashDoingNow = false;
-                _dashRemainingCooldwon = _dashCooldwon;
+                EndDash();
             }
         }
         else
         {
-            Debug.Log(_dashRemainingCooldwon);
+            //Debug.Log(_dashRemainingCooldwon);
             if (_dashRemainingCooldwon > 0f) //Dash Cooldown
             {
                 _dashRemainingCooldwon = _dashRemainingCooldwon - Time.fixedDeltaTime;
@@ -192,5 +224,77 @@ public class SC_Movement : MonoBehaviour {
                 }
             }
         }
+    }
+    
+    void EndDash()
+    {
+        _dashDoingNow = false;
+        _dashRemainingCooldwon = _dashCooldwon;
+    }
+
+    void CheckWallJump()
+    {
+        /*if (!_isOnWall)
+        {
+            RaycastHit hitR;
+            Ray rayR = new Ray(gameObject.transform.position + (Vector3.up * 0.5f), Vector3.right);
+
+            RaycastHit hitL;
+            Ray rayL = new Ray(gameObject.transform.position, Vector3.left);
+
+            if (Physics.Raycast(rayR, out hitR, 0.51f))
+            {
+                _isOnWall = true;
+                _isOnWallRight = true;
+                EndDash();
+            }
+            else if (Physics.Raycast(rayL, out hitL, 0.51f))
+            {
+                _isOnWall = true;
+                _isOnWallRight = false;
+                EndDash();
+            }
+        }*/
+
+        RaycastHit hitR;
+        Ray rayR = new Ray(gameObject.transform.position + (Vector3.up * 0.5f), Vector3.right);
+
+        RaycastHit hitL;
+        Ray rayL = new Ray(gameObject.transform.position, Vector3.left);
+
+        if (Physics.Raycast(rayR, out hitR, 0.51f))
+        {
+            _isOnWall = true;
+            _isOnWallRight = true;
+            EndDash();
+        }
+        else if (Physics.Raycast(rayL, out hitL, 0.51f))
+        {
+            _isOnWall = true;
+            _isOnWallRight = false;
+            EndDash();
+        }
+        else _isOnWall = false;
+        //
+
+
+
+        if (_rb.velocity.y < -_wallJumpFallSpeed && _isOnWall)
+        {
+            _rb.velocity = new Vector3(_rb.velocity.x, -_wallJumpFallSpeed);
+        }
+
+    }
+
+    void StartWallJump (bool R)
+    {
+        _isOnWall = true;
+        EndDash();
+
+        if (R)
+        {
+            _isOnWallRight = true;
+        }
+        else _isOnWallRight = false;
     }
 }
