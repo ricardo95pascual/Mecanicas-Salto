@@ -157,6 +157,11 @@ Prefab:
       propertyPath: _maxFallSpeed
       value: 15
       objectReference: {fileID: 0}
+    - target: {fileID: 54669876176016064, guid: e74234350801483408a643d6cebd07cf,
+        type: 2}
+      propertyPath: m_Drag
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e74234350801483408a643d6cebd07cf, type: 2}
   m_IsPrefabParent: 0
