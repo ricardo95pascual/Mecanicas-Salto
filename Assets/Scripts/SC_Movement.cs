@@ -245,13 +245,13 @@ public class SC_Movement : MonoBehaviour {
         RaycastHit hitL;
         Ray rayL = new Ray(gameObject.transform.position, Vector3.left);
 
-        if (Physics.Raycast(rayR, out hitR, 0.51f))
+        if (Physics.Raycast(rayR, out hitR, _colider.radius + 0.01f))
         {
             _isOnWall = true;
             _isOnWallRight = true;
             EndDash();
         }
-        else if (Physics.Raycast(rayL, out hitL, 0.51f))
+        else if (Physics.Raycast(rayL, out hitL, _colider.radius + 0.01f))
         {
             _isOnWall = true;
             _isOnWallRight = false;
