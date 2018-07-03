@@ -39,7 +39,7 @@ public class CS_PlayerLife : MonoBehaviour {
         }
     }
 
-    void Death()
+    public void Death()
     {
         _CheckPoint.GetComponent<CS_Logic_Checkpoint>().Respawn(_spawmDelay);
         Destroy(gameObject);
