@@ -42,6 +42,10 @@ public class CS_Logic_Checkpoint : MonoBehaviour {
 
     void SpawmPlayer()
     {
+        GameObject oldCam = GameObject.FindGameObjectWithTag("MainCamera");
+
+        Destroy(oldCam);
+
         _player = GameObject.Instantiate(_playerPrefab, _SpawnPosition, Quaternion.identity);
 
         _player.GetComponent<CS_PlayerLife>()._CheckPoint = this;

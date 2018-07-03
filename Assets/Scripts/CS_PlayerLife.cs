@@ -8,9 +8,14 @@ public class CS_PlayerLife : MonoBehaviour {
 
     public CS_Logic_Checkpoint _CheckPoint;
 
+    public GameObject _camera;
+    GameObject _activeCamera;
+    public float _cameraDistanceZ;
+
 	// Use this for initialization
 	void Start () {
-		
+        _activeCamera = GameObject.Instantiate(_camera, transform.position + Vector3.back * _cameraDistanceZ, Quaternion.identity);
+        _activeCamera.GetComponent<SC_Camera>()._Player = gameObject;
 	}
 	
 	// Update is called once per frame
