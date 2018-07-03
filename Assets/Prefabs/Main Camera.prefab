@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _Player: {fileID: 0}
-  _CameraFollowSpeed: 0.5
+  _CameraFollowSpeed: 0.05
   _cameraMaxDistanceX: 0
   _cameraMaxDistanceY: 0
 --- !u!124 &124379402002557354

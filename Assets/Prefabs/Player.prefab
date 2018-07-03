@@ -114,6 +114,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _spawmDelay: 1
+  _CheckPoint: {fileID: 0}
+  _camera: {fileID: 1537841233512160, guid: 1685f409666ba214f8971a3733bcf38f, type: 2}
+  _cameraDistanceZ: 10
 --- !u!114 &114909250270135548
 MonoBehaviour:
   m_ObjectHideFlags: 1
