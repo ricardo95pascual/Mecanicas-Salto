@@ -41,9 +41,13 @@ public class SC_Movement : MonoBehaviour {
     bool _isOnWall = false;
     bool _isOnWallRight = true;
 
+    CapsuleCollider _colider;
+
 	// Use this for initialization
 	void Start () {
         _rb = gameObject.GetComponent<Rigidbody>();
+
+        _colider = GetComponent<CapsuleCollider>();
 	}
 	
 	// Update is called once per frame
@@ -68,7 +72,7 @@ public class SC_Movement : MonoBehaviour {
         //Jump
         if (Input.GetKeyDown("space"))
         {
-            Debug.Log(Input.GetAxis("Jump"));
+            //Debug.Log(Input.GetAxis("Jump"));
             if (_grounded)
             {
                 Jump(_jumpSpeed0);
@@ -103,9 +107,9 @@ public class SC_Movement : MonoBehaviour {
     void CheckGrounded()
     {
         RaycastHit hit;
-        Ray groundRay = new Ray(transform.position, Vector3.down);
+        Ray groundRay = new Ray(_colider.transform.position, Vector3.down);
 
-        if (Physics.Raycast(groundRay, out hit, 1.01f))
+        if (Physics.Raycast(groundRay, out hit, (_colider.height / 2f) + 0.05f))
         {
             _grounded = true;
         }
@@ -235,28 +239,6 @@ public class SC_Movement : MonoBehaviour {
 
     void CheckWallJump()
     {
-        /*if (!_isOnWall)
-        {
-            RaycastHit hitR;
-            Ray rayR = new Ray(gameObject.transform.position + (Vector3.up * 0.5f), Vector3.right);
-
-            RaycastHit hitL;
-            Ray rayL = new Ray(gameObject.transform.position, Vector3.left);
-
-            if (Physics.Raycast(rayR, out hitR, 0.51f))
-            {
-                _isOnWall = true;
-                _isOnWallRight = true;
-                EndDash();
-            }
-            else if (Physics.Raycast(rayL, out hitL, 0.51f))
-            {
-                _isOnWall = true;
-                _isOnWallRight = false;
-                EndDash();
-            }
-        }*/
-
         RaycastHit hitR;
         Ray rayR = new Ray(gameObject.transform.position + (Vector3.up * 0.5f), Vector3.right);
 
