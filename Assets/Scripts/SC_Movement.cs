@@ -82,6 +82,7 @@ public class SC_Movement : MonoBehaviour {
                 else _rb.velocity = new Vector3(_speedMovement, _rb.velocity.y);
 
                 Jump(_jumpSpeed0);
+                _canSecondJump = true;
                 //_isOnWall = false;
             }
             else if (_canSecondJump)
