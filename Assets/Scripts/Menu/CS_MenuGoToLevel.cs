@@ -45,4 +45,13 @@ public class CS_MenuGoToLevel : MonoBehaviour {
         SceneManager.LoadScene(7);
     }
 
+    public void SelectSceneMenu()
+    {
+        SceneManager.LoadScene(1);
+    }
+
+    public void MainMenu()
+    {
+        SceneManager.LoadScene(0);
+    }
 }
