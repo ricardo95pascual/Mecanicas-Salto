@@ -14,9 +14,13 @@ public class SC_Enemy_Walk : MonoBehaviour {
 
     Rigidbody _rb;
 
+    CapsuleCollider _collider;
+
 	// Use this for initialization
 	void Start () {
         _rb = GetComponent<Rigidbody>();
+
+        _collider = GetComponent<CapsuleCollider>();
 	}
 	
 	// Update is called once per frame
@@ -45,15 +49,15 @@ public class SC_Enemy_Walk : MonoBehaviour {
 
         if (_movingRight)
         {
-            Ray RayFrontR = new Ray(transform.position + Vector3.down * 0.9f, Vector3.right);
+            Ray RayFrontR = new Ray(_collider.transform.position + Vector3.down * _collider.height * 0.45f, Vector3.right);
             RaycastHit RayHit;
-            if (Physics.Raycast(RayFrontR, out RayHit, _distanceToChangeDirection + 0.5f))
+            if (Physics.Raycast(RayFrontR, out RayHit, _distanceToChangeDirection + _collider.radius))
             {
                 _movingRight = !_movingRight;
             }
             else
             {
-                Ray RayDownR = new Ray(transform.position + Vector3.right * (0.5f + _distanceToChangeDirection), Vector3.down * _distanceToDetectTheFloor);
+                Ray RayDownR = new Ray(transform.position + Vector3.right * (_collider.radius + _distanceToChangeDirection), Vector3.down * _distanceToDetectTheFloor);
                 if (!Physics.Raycast(RayDownR, out RayHit, _distanceToDetectTheFloor))
                 {
                     _movingRight = !_movingRight;
@@ -62,15 +66,15 @@ public class SC_Enemy_Walk : MonoBehaviour {
         }
         else
         {
-            Ray RayFrontL = new Ray(transform.position + Vector3.down * 0.9f, Vector3.left);
+            Ray RayFrontL = new Ray(_collider.transform.position + Vector3.down * _collider.height * 0.45f, Vector3.left);
             RaycastHit RayHit;
-            if (Physics.Raycast(RayFrontL, out RayHit, _distanceToChangeDirection + 0.5f))
+            if (Physics.Raycast(RayFrontL, out RayHit, _distanceToChangeDirection + _collider.radius))
             {
                 _movingRight = !_movingRight;
             }
             else
             {
-                Ray RayDownL = new Ray(transform.position + Vector3.left * (0.5f + _distanceToChangeDirection), Vector3.down * _distanceToDetectTheFloor);
+                Ray RayDownL = new Ray(transform.position + Vector3.left * (_collider.radius + _distanceToChangeDirection), Vector3.down * _distanceToDetectTheFloor);
                 if (!Physics.Raycast(RayDownL, out RayHit, _distanceToDetectTheFloor))
                 {
                     _movingRight = !_movingRight;
