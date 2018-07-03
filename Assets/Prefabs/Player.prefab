@@ -85,7 +85,7 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1410909655385912}
-  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!54 &54669876176016064
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -118,12 +118,13 @@ MonoBehaviour:
   _speedAirBrakeTo0: 0.1
   _speedMovement: 5
   _dashSpeed: 20
-  _dashDistance: 2
+  _dashDistance: 4
   _dashCooldwon: 1.5
   _dashUseGravity: 0
   _jumpSpeed0: 8
   _jumpSecondSpeed0: 6
   _jumpBrakeSpeed: 4
+  _maxFallSpeed: 20
   _wallJumpFallSpeed: 2
 --- !u!136 &136624100360776574
 CapsuleCollider:
@@ -135,6 +136,6 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.5
-  m_Height: 2
+  m_Height: 1.03
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
